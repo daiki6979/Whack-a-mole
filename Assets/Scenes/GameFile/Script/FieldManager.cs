@@ -19,7 +19,7 @@ public class FieldManager : MonoBehaviour
     Cursor_Frame cursorFrame;
 
     //加速度センサZ軸の閾値(変化量)
-    public float pullThresholdZ = 1.5f;
+    public float pullThresholdZ = -1.4f;
 
     float baseZ;//初期のZの値（基準値）
     bool isBaseSet = false;
@@ -85,17 +85,18 @@ public class FieldManager : MonoBehaviour
         }
 
         float deltaZ = zAcc - baseZ;
+        Debug.Log(deltaZ);
 
 
         //閾値を超えたら
-        if (deltaZ > pullThresholdZ && canPullByAcc)
+        if (deltaZ < pullThresholdZ )
         {
             PullCurrent();
             canPullByAcc = false;
         }
 
         //加速度の閾値が戻る
-        if(zAcc < 0f)
+        if(zAcc > 1.0f)
         {
             canPullByAcc=true;
         }
