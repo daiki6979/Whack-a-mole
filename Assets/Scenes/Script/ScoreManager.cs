@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance;//他のスクリプトからPopupManager.Instanceでアクセス
     public Text scoreText;
 
-    int score = 0;//開始時のスコア
+    int  score = 0;//開始時のスコア
 
     public int Score
     {
