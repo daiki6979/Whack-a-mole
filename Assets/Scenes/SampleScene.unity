@@ -1292,6 +1292,7 @@ GameObject:
   - component: {fileID: 1606291639}
   - component: {fileID: 1606291638}
   - component: {fileID: 1606291642}
+  - component: {fileID: 1606291644}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1370,9 +1371,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5442ec59bdcb94d82c4983219d5f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalPrefab: {fileID: 8771365805389085256, guid: 30b36c906a7a4a9448d3d1a04cd61ede, type: 3}
-  triggerScore: 50
+  animalPrefab: {fileID: 3610019064771015485, guid: 9b0a9afd1c2b0f24b98e7a9b380bb5be, type: 3}
+  triggerScore: 10
   spawnPosition: {x: 5, y: 2, z: 5}
+  mic: {fileID: 1606291644}
+  clearVolume: 0.05
 --- !u!4 &1606291643
 Transform:
   m_ObjectHideFlags: 0
@@ -1388,6 +1391,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1606291644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606291636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8033ede6f6fb9e84195a51e68bf2bafa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deviceName: 
+  rms: 0
 --- !u!1 &1699197127
 GameObject:
   m_ObjectHideFlags: 0

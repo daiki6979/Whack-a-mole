@@ -81,7 +81,10 @@ public class FieldManager : MonoBehaviour
                     //引っこ抜きのアニメーション開始（上に移動させ、画面外へ飛ばす）
                     StartCoroutine(v.PullOut());
 
-                    ScoreManager.Instance.AddScore(v.point);//スコアを加算
+                    if (!Animal.IsJamming)
+                    {
+                        ScoreManager.Instance.AddScore(v.point);
+                    }
 
                     PopupManager.Instance.Show("+" + v.point + " Point");//画面にポップアップ表示
 
