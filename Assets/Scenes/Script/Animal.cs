@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Animal : MonoBehaviour
 {
@@ -16,8 +17,10 @@ public class Animal : MonoBehaviour
     GameObject spawnedAnimal;         // ← 生成した動物を保持
 
     public MicCapture mic;
-    public float clearVolume = 0.05f;
+    public float clearVolume = 0.4f;
 
+    public Slider micGauge;
+    public GameObject Event;
 
     void Update()
     {
@@ -38,6 +41,8 @@ public class Animal : MonoBehaviour
         // 音で動物を消す
         if (Animal.IsJamming && mic != null)
         {
+            micGauge.value = Mathf.Clamp01(mic.rms * 10f);
+
             if (mic.rms > clearVolume)
             {
                 RemoveAnimal();
@@ -51,6 +56,10 @@ public class Animal : MonoBehaviour
         spawnedAnimal = Instantiate(animalPrefab, FindObjectOfType<Canvas>().transform);
         spawnedAnimal.transform.localPosition = spawnPosition;
         IsJamming = true;
+        if(Event != null)
+        {
+            Event.SetActive(true);
+        }
     }
 
 
@@ -61,7 +70,11 @@ public class Animal : MonoBehaviour
             Destroy(spawnedAnimal);
             spawnedAnimal = null;
             IsJamming = false;
-            //hasSpawned = false; // ← 再出現を許可したい場合
+            if(Event != null)
+            {
+                Event.SetActive(false);
+            }
+            hasSpawned = false; // ← 再出現を許可したい場合
         }
     }
 }
