@@ -1792,11 +1792,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5442ec59bdcb94d82c4983219d5f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalPrefab: {fileID: 3610019064771015485, guid: 9b0a9afd1c2b0f24b98e7a9b380bb5be, type: 3}
+  animalPrefabs:
+  - {fileID: 3610019064771015485, guid: 9b0a9afd1c2b0f24b98e7a9b380bb5be, type: 3}
+  - {fileID: 4814633288568484713, guid: 367523cd421b30548b2236d571362ef7, type: 3}
   triggerScore: 10
   spawnPosition: {x: 5, y: 20, z: 5}
   mic: {fileID: 1606291644}
-  clearVolume: 0.3
   micGauge: {fileID: 1767744294}
   Event: {fileID: 1472878093}
   thresholdUI: {fileID: 1663492711}

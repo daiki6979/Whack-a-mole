@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Animal : MonoBehaviour
 {
-    public GameObject animalPrefab;   // 動物のPrefab
+    public GameObject[] animalPrefabs;   // 動物のPrefab
     public int triggerScore = 10;     // 発生条件（50点）
 
     public Vector3 spawnPosition;     // 出現位置（Inspectorで調整）
@@ -60,7 +60,12 @@ public class Animal : MonoBehaviour
 
     void SpawnAnimal()
     {
-        spawnedAnimal = Instantiate(animalPrefab, FindObjectOfType<Canvas>().transform);
+        if (animalPrefabs.Length == 0) return;
+
+        int index = Random.Range(0, animalPrefabs.Length);
+        GameObject animalprefab = animalPrefabs[index];
+
+        spawnedAnimal = Instantiate(animalprefab, FindObjectOfType<Canvas>().transform);
         spawnedAnimal.transform.localPosition = spawnPosition;
         IsJamming = true;
         if(Event != null)
