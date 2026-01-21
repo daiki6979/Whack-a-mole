@@ -17,10 +17,17 @@ public class Animal : MonoBehaviour
     GameObject spawnedAnimal;         // ← 生成した動物を保持
 
     public MicCapture mic;
-    public float clearVolume = 0.4f;
+    float clearVolume = 0.25f; //イベント終了条件の音量
+
 
     public Slider micGauge;
     public GameObject Event;
+    public RectTransform thresholdUI;
+
+    void Start()
+    {
+        UpdateThresholdLine();
+    }
 
     void Update()
     {
@@ -41,7 +48,7 @@ public class Animal : MonoBehaviour
         // 音で動物を消す
         if (Animal.IsJamming && mic != null)
         {
-            micGauge.value = Mathf.Clamp01(mic.rms * 10f);
+            micGauge.value = Mathf.Clamp01(mic.rms);
 
             if (mic.rms > clearVolume)
             {
@@ -75,6 +82,24 @@ public class Animal : MonoBehaviour
                 Event.SetActive(false);
             }
             hasSpawned = false; // ← 再出現を許可したい場合
+        }
+    }
+
+    //clearVolumeに対応した箇所に赤線を表示
+    void UpdateThresholdLine()
+    {
+        if (micGauge != null && thresholdUI != null)
+        {
+            RectTransform area = micGauge.fillRect.parent as RectTransform;
+
+            float height = area.rect.height;
+            float width  = area.rect.width;
+
+            thresholdUI.sizeDelta = new Vector2(width, 4f);
+
+            float y = Mathf.Lerp(-height * 0.5f, height * 0.5f, clearVolume);
+
+            thresholdUI.anchoredPosition = new Vector2(0, y);
         }
     }
 }
