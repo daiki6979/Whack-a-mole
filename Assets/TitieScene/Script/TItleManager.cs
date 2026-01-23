@@ -22,7 +22,7 @@ public class TItleManager : MonoBehaviour
         {
             StartGame();
         }
-        CheckPullByZValue();
+        //CheckPullByZValue();
     }
 
     IEnumerator FadeIn()
@@ -54,7 +54,7 @@ public class TItleManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
-    void CheckPullByZValue()
+    /*void CheckPullByZValue()
     {
         if (Recelver.Instance == null) return;
 
@@ -85,5 +85,5 @@ public class TItleManager : MonoBehaviour
             canPullByAcc = true;
         }
 
-    }
+    }*/
 }
