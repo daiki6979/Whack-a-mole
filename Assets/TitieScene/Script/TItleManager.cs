@@ -18,11 +18,11 @@ public class TItleManager : MonoBehaviour
     {
         if (istarting) return;
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return)|| Input.GetKeyDown(KeyCode.Space))
         {
             StartGame();
         }
-        CheckPullByZValue();
+       // CheckPullByZValue();
     }
 
     IEnumerator FadeIn()
@@ -53,7 +53,7 @@ public class TItleManager : MonoBehaviour
         }
         SceneManager.LoadScene("SampleScene");
     }
-
+    /*
     void CheckPullByZValue()
     {
         if (Recelver.Instance == null) return;
@@ -86,4 +86,5 @@ public class TItleManager : MonoBehaviour
         }
 
     }
+    */
 }
