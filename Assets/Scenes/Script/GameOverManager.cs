@@ -12,7 +12,7 @@ public class GameOverManager : MonoBehaviour
     public CanvasGroup fadeCanvasGroup;
     public float fadeDuration = 1.0f;
 
-    pubulic TextMeshProUGUI reasonText;
+    public TextMeshProUGUI reasonText;
 
     bool isShown = false;
 
