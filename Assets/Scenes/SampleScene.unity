@@ -1779,6 +1779,8 @@ MonoBehaviour:
   ninjinPrefab: {fileID: 2009770554214119902, guid: aaa9a50f2cef7b3429761a50e81ddce2, type: 3}
   kakashiPrefab: {fileID: 2488192025336477590, guid: 7918fcbe97076ae41b008cfe85ddcd33, type: 3}
   GOobjPrefab: {fileID: 7386099289653124828, guid: d856ff6957887bf43a4e423e50ddb9ae, type: 3}
+  ninjinkinPrefab: {fileID: 8285325531003663184, guid: e6466a4cdab7bf74fa19a39a6907c016, type: 3}
+  maxVegetableCount: 8
   SelectCursol: {fileID: 1769470593}
 --- !u!114 &1606291642
 MonoBehaviour:
@@ -1797,7 +1799,9 @@ MonoBehaviour:
   - {fileID: 4814633288568484713, guid: 367523cd421b30548b2236d571362ef7, type: 3}
   triggerScore: 10
   spawnPosition: {x: 5, y: 20, z: 5}
+  hasSpawned: 0
   mic: {fileID: 1606291644}
+  clearVolume: 0.1
   micGauge: {fileID: 1767744294}
   Event: {fileID: 1472878093}
   thresholdUI: {fileID: 1663492711}

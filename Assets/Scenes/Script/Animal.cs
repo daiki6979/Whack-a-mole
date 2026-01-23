@@ -10,14 +10,14 @@ public class Animal : MonoBehaviour
 
     public Vector3 spawnPosition;     // 出現位置（Inspectorで調整）
 
-    bool hasSpawned = false;
+    public bool hasSpawned = false;
 
     public static bool IsJamming = false;   //イベント中のスコア増加を防ぐ
 
     GameObject spawnedAnimal;         // ← 生成した動物を保持
 
     public MicCapture mic;
-    float clearVolume = 0.25f; //イベント終了条件の音量
+    public float clearVolume = 0.25f; //イベント終了条件の音量
 
 
     public Slider micGauge;
