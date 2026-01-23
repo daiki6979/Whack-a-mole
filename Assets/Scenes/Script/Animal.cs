@@ -19,6 +19,9 @@ public class Animal : MonoBehaviour
     public MicCapture mic;
     public float clearVolume = 0.25f; //イベント終了条件の音量
 
+    public float limitTime = 5f; //制限時間
+    Coroutine limitCoroutine;
+
 
     public Slider micGauge;
     public GameObject Event;
@@ -27,6 +30,7 @@ public class Animal : MonoBehaviour
     void Start()
     {
         UpdateThresholdLine();
+        IsJamming = false;
     }
 
     void Update()
@@ -72,6 +76,11 @@ public class Animal : MonoBehaviour
         {
             Event.SetActive(true);
         }
+        if(limitCoroutine != null)
+        {
+            StopCoroutine(limitCoroutine);
+        }
+        limitCoroutine = StartCoroutine(AnimalTimeLimit());
     }
 
 
@@ -105,6 +114,16 @@ public class Animal : MonoBehaviour
             float y = Mathf.Lerp(-height * 0.5f, height * 0.5f, clearVolume);
 
             thresholdUI.anchoredPosition = new Vector2(0, y);
+        }
+    }
+
+    IEnumerator AnimalTimeLimit()
+    {
+        yield return new WaitForSeconds(limitTime);
+
+        if (IsJamming)
+        {
+            FindObjectOfType<GameOverManager>().Show(GameEndType.GameOver);
         }
     }
 }
