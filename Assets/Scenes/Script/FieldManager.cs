@@ -19,6 +19,16 @@ public class FieldManager : MonoBehaviour
     public int maxVegetableCount = 8;
     //選択カーソル
     public GameObject SelectCursol;
+
+    //加速度センサz字句の閾値(変化量)
+    public float pullThresholdZ = -1.4f;
+
+    float baseZ;//初期のZの値(基準値)
+    bool isBaseSet = false;
+
+    //連続で振りすぎてエラーが起こるのを防ぐ
+    bool canPullByAcc = true;
+
     Animal animal;
 
     GameObject[,] field;//畑の状態の保持
@@ -145,8 +155,61 @@ public class FieldManager : MonoBehaviour
                 }
             }
         }
+        //加速度から抜く操作を実行
+        CheckPullByZValue();
     }
+    void CheckPullByZValue()
+    {
+        if (Recelver.Instance == null) return;
 
+        float zAcc = Recelver.Instance.acc.z;
+
+        //初期のZの値を取得（基準値）
+        if (!isBaseSet)
+        {
+            baseZ = zAcc;
+            isBaseSet = true;
+            return;
+        }
+
+        float deltaZ = zAcc - baseZ;
+        Debug.Log(deltaZ);
+
+
+        //閾値を超えたら
+        if (deltaZ < pullThresholdZ)
+        {
+            PullCurrent();
+            canPullByAcc = false;
+        }
+
+        //加速度の閾値が戻る
+        if (zAcc > 1.0f)
+        {
+            canPullByAcc = true;
+        }
+
+    }
+    void PullCurrent()
+    {
+        Vegetable v = field[x, z].GetComponent<Vegetable>();//Vegetableスクリプトを取得
+        if (v != null)
+        {
+            //引っこ抜きのアニメーション開始（上に移動させ、画面外へ飛ばす）
+            StartCoroutine(v.PullOut());
+
+            if (!Animal.IsJamming)
+            {
+                ScoreManager.Instance.AddScore(v.point);
+            }
+
+            PopupManager.Instance.Show("+" + v.point + " Point");//画面にポップアップ表示
+
+            field[x, z] = null;//抜いた個所の野菜の情報を一度消去
+
+            StartCoroutine(Respawn(x, z));//野菜をスポーンさせる
+        }
+    }
     //大根のスポーン（初期が大根のため作成）
     void SpawnDaikon(int x, int z)
     {
