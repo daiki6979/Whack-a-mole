@@ -53,11 +53,11 @@ public class FieldManager : MonoBehaviour
     void Start()
     {
         field = new GameObject[width, height];
-        AddHeight();
+        //AddHeight();
 
         InitialSpawn();
         
-        kakashiSpawn();
+      //  kakashiSpawn();
         animal = GetComponent<Animal>();
     }
 
@@ -119,7 +119,7 @@ public class FieldManager : MonoBehaviour
         {
             if (field[x, z] != null)
             {
-                // かかしか？
+                /*かかしか？
                 kakashi kakashi = field[x, z].GetComponent<kakashi>();
                 if (kakashi != null)
                 {
@@ -135,6 +135,7 @@ public class FieldManager : MonoBehaviour
                     FindObjectOfType<GameOverManager>().Show(GameEndType.GameOver);
                     return;
                 }
+                */
 
                 Vegetable v = field[x, z].GetComponent<Vegetable>();//Vegetableスクリプトを取得
                 if (v != null)
@@ -283,7 +284,7 @@ public class FieldManager : MonoBehaviour
         SpawnRandom(x, z);//ランダムでスポーンさせる
     }
 
-    //畑の拡張(縦)
+    /*畑の拡張(縦)
     void AddHeight()
     {
         int newHeight = height + 1;
@@ -301,6 +302,7 @@ public class FieldManager : MonoBehaviour
         field = newField;
         height = newHeight;
     }
+
     //かかしのスポーン
     void kakashiSpawn()
     {
@@ -311,7 +313,7 @@ public class FieldManager : MonoBehaviour
         field[0, 0] = obj;
     }
 
-    /*製作都合上ゲームオーバーになるおぶじぇくと
+    製作都合上ゲームオーバーになるおぶじぇくと
     void GameoverSpawn()
     {
         int gx = 2;
