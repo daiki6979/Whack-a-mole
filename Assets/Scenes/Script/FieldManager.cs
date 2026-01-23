@@ -177,7 +177,7 @@ public class FieldManager : MonoBehaviour
 
 
         //閾値を超えたら
-        if (deltaZ < pullThresholdZ)
+        if (canPullByAcc && deltaZ < pullThresholdZ)
         {
             PullCurrent();
             canPullByAcc = false;
