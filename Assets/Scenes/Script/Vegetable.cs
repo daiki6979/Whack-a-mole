@@ -10,6 +10,8 @@ public class Vegetable : MonoBehaviour
     public int point;//ポイント
     public float baseY;//スポーンY軸
 
+    public AudioClip pullSE;
+
     //引っこ抜きの処理
     public IEnumerator PullOut()
     {
@@ -19,13 +21,21 @@ public class Vegetable : MonoBehaviour
 
         float t = 0;
 
+        AudioSource audio = GetComponent<AudioSource>();
+
+        if(audio != null && pullSE != null){
+            audio.PlayOneShot(pullSE);
+        }
+
         //引っこ抜く
         while (t < 1)
         {
-            t += Time.deltaTime;//スピード
+            t += Time.deltaTime*10f;//スピード
             transform.position = Vector3.Lerp(start, up, t);
             yield return null;
         }
+
+        yield return new WaitForSeconds(0.3f);
 
         Vector3 right = up + Vector3.right * 10f;//画面外へ飛ばす（右に移動）
 
@@ -34,7 +44,7 @@ public class Vegetable : MonoBehaviour
         //画面外へ飛ばす
         while (t < 1)
         {
-            t += Time.deltaTime * 2f;//スピード
+            t += Time.deltaTime * 20f;//スピード
             transform.position = Vector3.Lerp(up, right, t);
             yield return null;
         }

@@ -14,35 +14,78 @@ public class FieldManager : MonoBehaviour
     public GameObject ninjinPrefab;
     public GameObject kakashiPrefab;
     public GameObject GOobjPrefab;
+
+    public GameObject ninjinkinPrefab;
+    public int maxVegetableCount = 8;
     //選択カーソル
     public GameObject SelectCursol;
+    Animal animal;
 
     GameObject[,] field;//畑の状態の保持
 
     int x = 0, z = 0;
+
+    int CountVegetables()
+    {
+        int count = 0;
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+                if (field[x, z] != null)
+                    count++;
+            }
+        }
+        return count;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         field = new GameObject[width, height];
         AddHeight();
-        //最初はすべて大根にする
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 1; z < height; z++)
-            {
-                SpawnDaikon(x, z);
-            }
-        }
+
+        InitialSpawn();
         
         kakashiSpawn();
         GameoverSpawn();
+        animal = GetComponent<Animal>();
+    }
+
+    void InitialSpawn()
+    {
+        int spawnCount = 0;
+
+        while (spawnCount < maxVegetableCount)
+        {
+            int rx = UnityEngine.Random.Range(0, width);
+            int rz = UnityEngine.Random.Range(1, height);
+
+            if (field[rx, rz] != null) continue;
+
+            // 大根 or ニンジンのみ（50:50）
+            if (UnityEngine.Random.value < 0.5f)
+            {
+                SpawnDaikon(rx, rz);
+            }
+            else
+            {
+                SpawnNinjin(rx, rz);
+            }
+
+            spawnCount++;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         if (TimerManager.isGameOver) return;//ゲーム終了後は受け付けない
+
+        if(animal != null && animal.hasSpawned)
+        {
+            return;
+        }
 
         // WASD移動
         if (Input.GetKeyDown(KeyCode.A)) x = Mathf.Max(0, x - 1);
@@ -81,7 +124,10 @@ public class FieldManager : MonoBehaviour
                     //引っこ抜きのアニメーション開始（上に移動させ、画面外へ飛ばす）
                     StartCoroutine(v.PullOut());
 
-                    ScoreManager.Instance.AddScore(v.point);//スコアを加算
+                    if (!Animal.IsJamming)
+                    {
+                        ScoreManager.Instance.AddScore(v.point);
+                    }
 
                     PopupManager.Instance.Show("+" + v.point + " Point");//画面にポップアップ表示
 
@@ -104,29 +150,32 @@ public class FieldManager : MonoBehaviour
         field[x, z] = obj;
     }
 
+        void SpawnNinjin(int x, int z)
+    {
+        Vector3 pos = new Vector3(x * 2, -3.8f, z * 2);//大根の配置（Y軸は固定）
+        GameObject obj = Instantiate(ninjinPrefab, pos, Quaternion.identity);
+        Vegetable v = obj.GetComponent<Vegetable>();
+        v.point = 2;//大根のポイント数
+        v.baseY = -3.9f;
+        field[x, z] = obj;
+    }
+
+        void SpawnkinNinjin(int x, int z)
+    {
+        Vector3 pos = new Vector3(x * 2, -3.8f, z * 2);//大根の配置（Y軸は固定）
+        GameObject obj = Instantiate(ninjinkinPrefab, pos, Quaternion.identity);
+        Vegetable v = obj.GetComponent<Vegetable>();
+        v.point = 5;
+        v.baseY = -3.9f;
+        field[x, z] = obj;
+    }
+
     //ランダムスポーン
     void SpawnRandom(int x, int z)
     {
-        bool ninjin = UnityEngine.Random.value > 0.5f;
+                // 最大8個制限
+        if (CountVegetables() >= maxVegetableCount) return;
 
-        if (ninjin)
-        {
-            Vector3 pos = new Vector3(x * 2, -3.8f, z * 2);//ニンジンの配置（Y軸は固定）
-            GameObject obj = Instantiate(ninjinPrefab, pos, Quaternion.identity);
-            Vegetable v = obj.GetComponent<Vegetable>();
-            v.point = 2;//ニンジンのポイント数
-            v.baseY = -3.9f;
-            field[x, z] = obj;
-        }
-        else
-        {
-            SpawnDaikon(x, z);
-        }
-
- 
-
-        /*
-        もし野菜を追加するならのプログラム例
         // 0.0 ～ 1.0 の乱数を取得
         float r = UnityEngine.Random.value;
 
@@ -135,30 +184,18 @@ public class FieldManager : MonoBehaviour
         {
             SpawnDaikon(x, z);
         }
-        // 次の30% 
-        else if (r < 0.8f)
+        // 次の40% 
+        else if (r < 0.9f)
         {
-            Vector3 pos = new Vector3(x * 2, -3.8f, z * 2);
-            GameObject obj = Instantiate(ninjinPrefab, pos, Quaternion.identity);
-
-            Vegetable v = obj.GetComponent<Vegetable>();
-            v.point = 2;
-            v.baseY = -3.8f;
-
-            field[x, z] = obj;
+            SpawnNinjin(x, z);
         }
-        // 残り20% 
+        // 残り10% 
         else
         {
-            Vector3 pos = new Vector3(x * 2, -2.5f, z * 2);
-            GameObject obj = Instantiate(tomatoPrefab, pos, Quaternion.identity);
+            SpawnkinNinjin(x, z);
 
-            Vegetable v = obj.GetComponent<Vegetable>();
-            v.point = 3;
-            v.baseY = -2.5f;
+        }
 
-            field[x, z] = obj;
-        }*/
     }
     //選択カーソルの表示
     void Cursol(int x, int z)

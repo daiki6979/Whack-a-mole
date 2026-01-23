@@ -11,6 +11,7 @@ public class TimerManager : MonoBehaviour
 
     public static bool isGameOver = false;//ゲーム終了のフラグ
 
+    float defaultTime;
     bool isCalled = false;
     // Update is called once per frame
     void Update()
@@ -43,13 +44,14 @@ public class TimerManager : MonoBehaviour
     void Awake()
     {
         isGameOver = false;
-        timeLimit = 180f;
+        defaultTime = timeLimit;
     }
 
     public void ResetTimer()
     {
-        timeLimit = 180f;
+        timeLimit = defaultTime;
         isGameOver = false;
+        isCalled = false;
     }
 
 
