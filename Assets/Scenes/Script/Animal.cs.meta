@@ -3,7 +3,12 @@ guid: fd5442ec59bdcb94d82c4983219d5f0e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mic: {instanceID: 0}
+  - micGauge: {instanceID: 0}
+  - Event: {instanceID: 0}
+  - thresholdUI: {instanceID: 0}
+  - kakashi: {fileID: -2657331735188742349, guid: 7918fcbe97076ae41b008cfe85ddcd33, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

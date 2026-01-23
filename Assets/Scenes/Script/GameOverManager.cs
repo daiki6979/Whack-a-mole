@@ -40,6 +40,7 @@ public class GameOverManager : MonoBehaviour
     //リトライ
     public void Retry()
     {
+        Animal.IsJamming = false;
         Time.timeScale = 1f;
         TimerManager.isGameOver = false;
         FindObjectOfType<TimerManager>()?.ResetTimer();
@@ -52,6 +53,7 @@ public class GameOverManager : MonoBehaviour
     //タイトル画面遷移
     public void BackToTitle()
     {
+        Animal.IsJamming = false;
         Time.timeScale = 1f;
         TimerManager.isGameOver = false;
         FindObjectOfType<TimerManager>()?.ResetTimer();
