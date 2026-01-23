@@ -68,7 +68,7 @@ public class FieldManager : MonoBehaviour
         while (spawnCount < maxVegetableCount)
         {
             int rx = UnityEngine.Random.Range(0, width);
-            int rz = UnityEngine.Random.Range(1, height);
+            int rz = UnityEngine.Random.Range(0, height);
 
             if (field[rx, rz] != null) continue;
 
