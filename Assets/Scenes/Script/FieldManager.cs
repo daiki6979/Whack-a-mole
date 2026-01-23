@@ -67,19 +67,15 @@ public class FieldManager : MonoBehaviour
 
         while (spawnCount < maxVegetableCount)
         {
-            int rx = UnityEngine.Random.Range(0, width);
-            int rz = UnityEngine.Random.Range(0, height);
-
-            if (field[rx, rz] != null) continue;
 
             // 大根 or ニンジンのみ（50:50）
             if (UnityEngine.Random.value < 0.5f)
             {
-                SpawnDaikon(rx, rz);
+                SpawnDaikon();
             }
             else
             {
-                SpawnNinjin(rx, rz);
+                SpawnNinjin();
             }
 
             spawnCount++;
@@ -152,7 +148,7 @@ public class FieldManager : MonoBehaviour
 
                     field[x, z] = null;//抜いた個所の野菜の情報を一度消去
 
-                    StartCoroutine(Respawn(x, z));//野菜をスポーンさせる
+                    StartCoroutine(Respawn());//野菜をスポーンさせる
                 }
             }
         }
@@ -208,42 +204,69 @@ public class FieldManager : MonoBehaviour
 
             field[x, z] = null;//抜いた個所の野菜の情報を一度消去
 
-            StartCoroutine(Respawn(x, z));//野菜をスポーンさせる
+            StartCoroutine(Respawn());//野菜をスポーンさせる
         }
     }
     //大根のスポーン（初期が大根のため作成）
-    void SpawnDaikon(int x, int z)
+    void SpawnDaikon()
     {
-        Vector3 pos = new Vector3(x * 2, -1.8f, z * 2);//大根の配置（Y軸は固定）
-        GameObject obj = Instantiate(daikonPrefab, pos, Quaternion.identity);
-        Vegetable v = obj.GetComponent<Vegetable>();
-        v.point = 1;//大根のポイント数
-        v.baseY = -1.8f;
-        field[x, z] = obj;
+        int x = UnityEngine.Random.Range(0, width);
+        int z = UnityEngine.Random.Range(0, height);
+        if (field[x, z] == null)
+        {
+            Vector3 pos = new Vector3(x * 2, -1.8f, z * 2);//大根の配置（Y軸は固定）
+            GameObject obj = Instantiate(daikonPrefab, pos, Quaternion.identity);
+            Vegetable v = obj.GetComponent<Vegetable>();
+            v.point = 1;//大根のポイント数
+            v.baseY = -1.8f;
+            field[x, z] = obj;
+        }
+        else
+        {
+            SpawnDaikon();
+        }
     }
 
-        void SpawnNinjin(int x, int z)
+        void SpawnNinjin()
     {
-        Vector3 pos = new Vector3(x * 2, -3.8f, z * 2);//大根の配置（Y軸は固定）
-        GameObject obj = Instantiate(ninjinPrefab, pos, Quaternion.identity);
-        Vegetable v = obj.GetComponent<Vegetable>();
-        v.point = 2;//大根のポイント数
-        v.baseY = -3.9f;
-        field[x, z] = obj;
+        int x = UnityEngine.Random.Range(0, width);
+        int z = UnityEngine.Random.Range(0, height);
+        if (field[x, z] == null)
+        {
+            Vector3 pos = new Vector3(x * 2, -3.8f, z * 2);//大根の配置（Y軸は固定）
+            GameObject obj = Instantiate(ninjinPrefab, pos, Quaternion.identity);
+            Vegetable v = obj.GetComponent<Vegetable>();
+            v.point = 2;//大根のポイント数
+            v.baseY = -3.9f;
+            field[x, z] = obj;
+        }
+        else
+        {
+            SpawnNinjin();
+        }
     }
 
-        void SpawnkinNinjin(int x, int z)
+        void SpawnkinNinjin()
     {
-        Vector3 pos = new Vector3(x * 2, -3.8f, z * 2);//大根の配置（Y軸は固定）
-        GameObject obj = Instantiate(ninjinkinPrefab, pos, Quaternion.identity);
-        Vegetable v = obj.GetComponent<Vegetable>();
-        v.point = 5;
-        v.baseY = -3.9f;
-        field[x, z] = obj;
+        int x = UnityEngine.Random.Range(0, width);
+        int z = UnityEngine.Random.Range(0, height);
+        if (field[x, z] == null)
+        {
+            Vector3 pos = new Vector3(x * 2, -3.8f, z * 2);//大根の配置（Y軸は固定）
+            GameObject obj = Instantiate(ninjinkinPrefab, pos, Quaternion.identity);
+            Vegetable v = obj.GetComponent<Vegetable>();
+            v.point = 5;
+            v.baseY = -3.9f;
+            field[x, z] = obj;
+        }
+        else
+        {
+            SpawnkinNinjin();
+        }
     }
 
     //ランダムスポーン
-    void SpawnRandom(int x, int z)
+    void SpawnRandom()
     {
                 // 最大8個制限
         if (CountVegetables() >= maxVegetableCount) return;
@@ -254,17 +277,17 @@ public class FieldManager : MonoBehaviour
         // 50% 
         if (r < 0.5f)
         {
-            SpawnDaikon(x, z);
+            SpawnDaikon();
         }
         // 次の40% 
         else if (r < 0.9f)
         {
-            SpawnNinjin(x, z);
+            SpawnNinjin();
         }
         // 残り10% 
         else
         {
-            SpawnkinNinjin(x, z);
+            SpawnkinNinjin();
 
         }
 
@@ -277,11 +300,11 @@ public class FieldManager : MonoBehaviour
         SelectCursol.transform.position = pos;
     }
     //リスポーン
-    IEnumerator Respawn(int x, int z)
+    IEnumerator Respawn()
     {
         float t = UnityEngine.Random.Range(1f, 5f);//何秒後にリスポーンするか指定
         yield return new WaitForSeconds(t);
-        SpawnRandom(x, z);//ランダムでスポーンさせる
+        SpawnRandom();//ランダムでスポーンさせる
     }
 
     /*畑の拡張(縦)
