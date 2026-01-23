@@ -48,7 +48,6 @@ public class FieldManager : MonoBehaviour
         InitialSpawn();
         
         kakashiSpawn();
-        GameoverSpawn();
         animal = GetComponent<Animal>();
     }
 
@@ -95,6 +94,15 @@ public class FieldManager : MonoBehaviour
 
         //選択範囲を四角で表示
         Cursol(x, z);
+
+
+        //Pキーでゲームオーバー
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            FindObjectOfType<GameOverManager>().Show(GameEndType.GameOver);
+            return;
+        }
+
 
         // Gキーで引っこ抜く
         if (Input.GetKeyDown(KeyCode.G))
@@ -240,7 +248,7 @@ public class FieldManager : MonoBehaviour
         field[0, 0] = obj;
     }
 
-    //製作都合上ゲームオーバーになるおぶじぇくと
+    /*製作都合上ゲームオーバーになるおぶじぇくと
     void GameoverSpawn()
     {
         int gx = 2;
@@ -258,5 +266,6 @@ public class FieldManager : MonoBehaviour
 
         field[gx, gz] = obj;
     }
+    */
 
 }
