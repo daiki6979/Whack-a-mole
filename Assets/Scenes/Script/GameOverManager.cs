@@ -12,10 +12,11 @@ public class GameOverManager : MonoBehaviour
     public CanvasGroup fadeCanvasGroup;
     public float fadeDuration = 1.0f;
 
+    pubulic TextMeshProUGUI reasonText;
 
     bool isShown = false;
 
-    public void Show(GameEndType endType)
+    public void Show(GameEndType endType, string reason = "")
     {
         if (isShown) return;//二重呼び出し防止
         isShown = true;
@@ -34,6 +35,13 @@ public class GameOverManager : MonoBehaviour
         }
 
         scoreText.text = "SCORE : " + ScoreManager.Instance.Score;
+
+        if (reasonText != null)
+        {
+            reasonText.gameObject.SetActive(!string.IsNullOrEmpty(reason));
+            reasonText.text = reason;
+        }
+
         Time.timeScale = 0f;
     }
 

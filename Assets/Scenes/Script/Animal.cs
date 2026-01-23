@@ -123,7 +123,8 @@ public class Animal : MonoBehaviour
 
         if (IsJamming)
         {
-            FindObjectOfType<GameOverManager>().Show(GameEndType.GameOver);
+            FindObjectOfType<GameOverManager>().Show(GameEndType.GameOver, "動物に野菜を食べられた");
+            RemoveAnimal();
         }
     }
 }
